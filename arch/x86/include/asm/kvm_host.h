@@ -624,7 +624,7 @@ struct kvm_vcpu_arch {
 };
 
 struct kvm_lpage_info {
-	int write_count;
+	int disallow_lpage;
 };
 
 struct kvm_arch_memory_slot {
