@@ -1183,6 +1183,26 @@ void ena_adjust_intr_moderation(struct ena_ring *rx_ring,
 	rx_ring->per_napi_bytes = 0;
 }
 
+static void ena_unmask_interrupt(struct ena_ring *tx_ring,
+					struct ena_ring *rx_ring)
+{
+	struct ena_eth_io_intr_reg intr_reg;
+
+	/* Update intr register: rx intr delay,
+	 * tx intr delay and interrupt unmask
+	 */
+	ena_com_update_intr_reg(&intr_reg,
+				rx_ring->smoothed_interval,
+				tx_ring->smoothed_interval,
+				true);
+
+	/* It is a shared MSI-X.
+	 * Tx and Rx CQ have pointer to it.
+	 * So we use one of them to reach the intr reg
+	 */
+	ena_com_unmask_intr(rx_ring->ena_com_io_cq, &intr_reg);
+}
+
 static void ena_update_ring_numa_node(struct ena_ring *tx_ring,
 					     struct ena_ring *rx_ring)
 {
@@ -1213,7 +1233,6 @@ static int ena_io_poll(struct napi_struct *napi, int budget)
 {
 	struct ena_napi *ena_napi = container_of(napi, struct ena_napi, napi);
 	struct ena_ring *tx_ring, *rx_ring;
-	struct ena_eth_io_intr_reg intr_reg;
 
 	u32 tx_work_done;
 	u32 rx_work_done;
@@ -1243,18 +1262,7 @@ static int ena_io_poll(struct napi_struct *napi, int budget)
 		if (ena_com_get_adaptive_moderation_enabled(rx_ring->ena_dev))
 			ena_adjust_intr_moderation(rx_ring, tx_ring);
 
-		/* Update intr register: rx intr delay, tx intr delay and
-		 * interrupt unmask
-		 */
-		ena_com_update_intr_reg(&intr_reg,
-					rx_ring->smoothed_interval,
-					tx_ring->smoothed_interval,
-					true);
-
-		/* It is a shared MSI-X. Tx and Rx CQ have pointer to it.
-		 * So we use one of them to reach the intr reg
-		 */
-		ena_com_unmask_intr(rx_ring->ena_com_io_cq, &intr_reg);
+		ena_unmask_interrupt(tx_ring, rx_ring);
 
 		ena_update_ring_numa_node(tx_ring, rx_ring);
 
@@ -1605,6 +1613,11 @@ static int ena_up_complete(struct ena_adapter *adapter)
 	ena_restore_ethtool_params(adapter);
 
 	ena_napi_enable_all(adapter);
+
+	/* Enable completion queues interrupt */
+	for (i = 0; i < adapter->num_queues; i++)
+		ena_unmask_interrupt(&adapter->tx_ring[i],
+				     &adapter->rx_ring[i]);
 
 	/* schedule napi in case we had pending packets
 	 * from the last time we disable napi
