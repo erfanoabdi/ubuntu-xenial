@@ -556,7 +556,7 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gva_t addr,
 	struct kvm_mmu_page *sp = NULL;
 	struct kvm_shadow_walk_iterator it;
 	unsigned direct_access, access = gw->pt_access;
-	int top_level, emulate;
+	int top_level, ret;
 
 	direct_access = gw->pte_access;
 
@@ -622,15 +622,15 @@ static int FNAME(fetch)(struct kvm_vcpu *vcpu, gva_t addr,
 	}
 
 	clear_sp_write_flooding_count(it.sptep);
-	emulate = mmu_set_spte(vcpu, it.sptep, gw->pte_access, write_fault,
-			       it.level, gw->gfn, pfn, prefault, map_writable);
+	ret = mmu_set_spte(vcpu, it.sptep, gw->pte_access, write_fault,
+			   it.level, gw->gfn, pfn, prefault, map_writable);
 	FNAME(pte_prefetch)(vcpu, gw, it.sptep);
 
-	return emulate;
+	return ret;
 
 out_gpte_changed:
 	kvm_release_pfn_clean(pfn);
-	return 0;
+	return RET_PF_RETRY;
 }
 
  /*
@@ -725,7 +725,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gva_t addr, u32 error_code,
 		if (!prefault)
 			inject_page_fault(vcpu, &walker.fault);
 
-		return 0;
+		return RET_PF_RETRY;
 	}
 
 	vcpu->arch.write_fault_to_shadow_pgtable = false;
@@ -747,7 +747,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gva_t addr, u32 error_code,
 
 	if (try_async_pf(vcpu, prefault, walker.gfn, addr, &pfn, write_fault,
 			 &map_writable))
-		return 0;
+		return RET_PF_RETRY;
 
 	if (handle_abnormal_pfn(vcpu, mmu_is_nested(vcpu) ? 0 : addr,
 				walker.gfn, pfn, walker.pte_access, &r))
@@ -792,7 +792,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, gva_t addr, u32 error_code,
 out_unlock:
 	spin_unlock(&vcpu->kvm->mmu_lock);
 	kvm_release_pfn_clean(pfn);
-	return 0;
+	return RET_PF_RETRY;
 }
 
 static gpa_t FNAME(get_level1_sp_gpa)(struct kvm_mmu_page *sp)
