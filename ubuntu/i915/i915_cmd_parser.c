@@ -346,6 +346,47 @@ static const struct drm_i915_cmd_descriptor hsw_blt_cmds[] = {
 	CMD(  MI_LOAD_SCAN_LINES_EXCL,          SMI,   !F,  0x3F,   R  ),
 };
 
+/*
+ * For Gen9 we can still rely on the h/w to enforce cmd security, and only
+ * need to re-enforce the register access checks. We therefore only need to
+ * teach the cmdparser how to find the end of each command, and identify
+ * register accesses. The table doesn't need to reject any commands, and so
+ * the only commands listed here are:
+ *   1) Those that touch registers
+ *   2) Those that do not have the default 8-bit length
+ *
+ * Note that the default MI length mask chosen for this table is 0xFF, not
+ * the 0x3F used on older devices. This is because the vast majority of MI
+ * cmds on Gen9 use a standard 8-bit Length field.
+ * All the Gen9 blitter instructions are standard 0xFF length mask, and
+ * none allow access to non-general registers, so in fact no BLT cmds are
+ * included in the table at all.
+ *
+ */
+static const struct drm_i915_cmd_descriptor gen9_blt_cmds[] = {
+	CMD(  MI_NOOP,                          SMI,    F,  1,      S  ),
+	CMD(  MI_USER_INTERRUPT,                SMI,    F,  1,      S  ),
+	CMD(  MI_WAIT_FOR_EVENT,                SMI,    F,  1,      S  ),
+	CMD(  MI_FLUSH,                         SMI,    F,  1,      S  ),
+	CMD(  MI_ARB_CHECK,                     SMI,    F,  1,      S  ),
+	CMD(  MI_REPORT_HEAD,                   SMI,    F,  1,      S  ),
+	CMD(  MI_ARB_ON_OFF,                    SMI,    F,  1,      S  ),
+	CMD(  MI_SUSPEND_FLUSH,                 SMI,    F,  1,      S  ),
+	CMD(  MI_LOAD_SCAN_LINES_INCL,          SMI,   !F,  0x3F,   S  ),
+	CMD(  MI_LOAD_SCAN_LINES_EXCL,          SMI,   !F,  0x3F,   S  ),
+	CMD(  MI_STORE_DWORD_IMM,               SMI,   !F,  0x3FF,  S  ),
+	CMD(  MI_LOAD_REGISTER_IMM(1),          SMI,   !F,  0xFF,   W,
+	      .reg = { .offset = 1, .mask = 0x007FFFFC, .step = 2 }    ),
+	CMD(  MI_UPDATE_GTT,                    SMI,   !F,  0x3FF,  S  ),
+	CMD(  MI_STORE_REGISTER_MEM_GEN8,       SMI,    F,  4,      W,
+	      .reg = { .offset = 1, .mask = 0x007FFFFC }               ),
+	CMD(  MI_FLUSH_DW,                      SMI,   !F,  0x3F,   S  ),
+	CMD(  MI_LOAD_REGISTER_MEM_GEN8,        SMI,    F,  4,      W,
+	      .reg = { .offset = 1, .mask = 0x007FFFFC }               ),
+	CMD(  MI_LOAD_REGISTER_REG,             SMI,    !F,  0xFF,  W,
+	      .reg = { .offset = 1, .mask = 0x007FFFFC, .step = 1 }    ),
+};
+
 #undef CMD
 #undef SMI
 #undef S3D
@@ -389,6 +430,11 @@ static const struct drm_i915_cmd_table hsw_blt_ring_cmd_table[] = {
 	{ hsw_blt_cmds, ARRAY_SIZE(hsw_blt_cmds) },
 };
 
+static const struct drm_i915_cmd_table gen9_blt_cmd_table[] = {
+	{ gen9_blt_cmds, ARRAY_SIZE(gen9_blt_cmds) },
+};
+
+
 /*
  * Register whitelists, sorted by increasing register offset.
  */
@@ -422,6 +468,10 @@ struct drm_i915_reg_descriptor {
 #define REG64(_reg) \
 	{ .addr = _reg }, \
 	{ .addr = _reg ## _UDW }
+
+#define REG64_IDX(_reg, idx) \
+	{ .addr = _reg(idx) }, \
+	{ .addr = _reg ## _UDW(idx) }
 
 #define REG64_IDX(_reg, idx) \
 	{ .addr = _reg(idx) }, \
@@ -500,6 +550,29 @@ static const struct drm_i915_reg_descriptor gen7_blt_regs[] = {
 	REG32(BCS_SWCTRL),
 };
 
+static const struct drm_i915_reg_descriptor gen9_blt_regs[] = {
+	REG64_IDX(RING_TIMESTAMP, RENDER_RING_BASE),
+	REG64_IDX(RING_TIMESTAMP, BSD_RING_BASE),
+	REG32(BCS_SWCTRL),
+	REG64_IDX(RING_TIMESTAMP, BLT_RING_BASE),
+	REG64_IDX(BCS_GPR, 0),
+	REG64_IDX(BCS_GPR, 1),
+	REG64_IDX(BCS_GPR, 2),
+	REG64_IDX(BCS_GPR, 3),
+	REG64_IDX(BCS_GPR, 4),
+	REG64_IDX(BCS_GPR, 5),
+	REG64_IDX(BCS_GPR, 6),
+	REG64_IDX(BCS_GPR, 7),
+	REG64_IDX(BCS_GPR, 8),
+	REG64_IDX(BCS_GPR, 9),
+	REG64_IDX(BCS_GPR, 10),
+	REG64_IDX(BCS_GPR, 11),
+	REG64_IDX(BCS_GPR, 12),
+	REG64_IDX(BCS_GPR, 13),
+	REG64_IDX(BCS_GPR, 14),
+	REG64_IDX(BCS_GPR, 15),
+};
+
 #undef REG64
 #undef REG32
 
@@ -523,6 +596,10 @@ static const struct drm_i915_reg_table hsw_render_reg_tables[] = {
 
 static const struct drm_i915_reg_table hsw_blt_reg_tables[] = {
 	{ gen7_blt_regs, ARRAY_SIZE(gen7_blt_regs) },
+};
+
+static const struct drm_i915_reg_table gen9_blt_reg_tables[] = {
+	{ gen9_blt_regs, ARRAY_SIZE(gen9_blt_regs) },
 };
 
 static u32 gen7_render_get_cmd_length_mask(u32 cmd_header)
@@ -574,6 +651,17 @@ static u32 gen7_blt_get_cmd_length_mask(u32 cmd_header)
 	if (client == INSTR_MI_CLIENT)
 		return 0x3F;
 	else if (client == INSTR_BC_CLIENT)
+		return 0xFF;
+
+	DRM_DEBUG_DRIVER("CMD: Abnormal blt cmd length! 0x%08X\n", cmd_header);
+	return 0;
+}
+
+static u32 gen9_blt_get_cmd_length_mask(u32 cmd_header)
+{
+	u32 client = (cmd_header & INSTR_CLIENT_MASK) >> INSTR_CLIENT_SHIFT;
+
+	if (client == INSTR_MI_CLIENT || client == INSTR_BC_CLIENT)
 		return 0xFF;
 
 	DRM_DEBUG_DRIVER("CMD: Abnormal blt cmd length! 0x%08X\n", cmd_header);
@@ -728,7 +816,7 @@ int i915_cmd_parser_init_ring(struct intel_engine_cs *engine)
 	int cmd_table_count;
 	int ret;
 
-	if (!IS_GEN7(engine->dev))
+	if (!IS_GEN7(engine->dev) && !(IS_GEN9(engine->dev) && engine->id == BCS))
 		return 0;
 
 	switch (engine->id) {
@@ -758,7 +846,17 @@ int i915_cmd_parser_init_ring(struct intel_engine_cs *engine)
 		engine->get_cmd_length_mask = gen7_bsd_get_cmd_length_mask;
 		break;
 	case BCS:
-		if (IS_HASWELL(engine->dev)) {
+		engine->get_cmd_length_mask = gen7_blt_get_cmd_length_mask;
+		if (IS_GEN9(engine->dev)) {
+			cmd_tables = gen9_blt_cmd_table;
+			cmd_table_count = ARRAY_SIZE(gen9_blt_cmd_table);
+			engine->get_cmd_length_mask =
+				gen9_blt_get_cmd_length_mask;
+
+			/* BCS Engine unsafe without parser */
+			engine->requires_cmd_parser = 1;
+		}
+		else if (IS_HASWELL(engine->dev)) {
 			cmd_tables = hsw_blt_ring_cmd_table;
 			cmd_table_count = ARRAY_SIZE(hsw_blt_ring_cmd_table);
 		} else {
@@ -766,7 +864,11 @@ int i915_cmd_parser_init_ring(struct intel_engine_cs *engine)
 			cmd_table_count = ARRAY_SIZE(gen7_blt_cmd_table);
 		}
 
-		if (IS_HASWELL(engine->dev)) {
+		if (IS_GEN9(engine->dev)) {
+			engine->reg_tables = gen9_blt_reg_tables;
+			engine->reg_table_count =
+				ARRAY_SIZE(gen9_blt_reg_tables);
+		} else if (IS_HASWELL(engine->dev)) {
 			engine->reg_tables = hsw_blt_reg_tables;
 			engine->reg_table_count = ARRAY_SIZE(hsw_blt_reg_tables);
 		} else {
@@ -774,7 +876,6 @@ int i915_cmd_parser_init_ring(struct intel_engine_cs *engine)
 			engine->reg_table_count = ARRAY_SIZE(ivb_blt_reg_tables);
 		}
 
-		engine->get_cmd_length_mask = gen7_blt_get_cmd_length_mask;
 		break;
 	case VECS:
 		cmd_tables = hsw_vebox_cmd_table;
@@ -1161,9 +1262,9 @@ int i915_parse_cmds(struct intel_engine_cs *engine,
 		}
 
 		/*
-		 * If the batch buffer contains a chained batch, return an
-		 * error that tells the caller to abort and dispatch the
-		 * workload as a non-secure batch.
+		 * We don't try to handle BATCH_BUFFER_START because it adds
+		 * non-trivial complexity. Instead we abort the scan and return
+		 * and error to indicate that the batch is unsafe.
 		 */
 		if (desc->cmd.value == MI_BATCH_BUFFER_START) {
 			ret = -EACCES;
@@ -1185,7 +1286,7 @@ int i915_parse_cmds(struct intel_engine_cs *engine,
 		}
 
 		if (!check_cmd(engine, desc, cmd, length, &oacontrol_set)) {
-			ret = -EINVAL;
+			ret = CMDPARSER_USES_GGTT(engine->dev) ? -EINVAL : -EACCES;
 			break;
 		}
 
@@ -1215,7 +1316,7 @@ int i915_parse_cmds(struct intel_engine_cs *engine,
  *
  * Return: the current version number of the cmd parser
  */
-int i915_cmd_parser_get_version(void)
+int i915_cmd_parser_get_version(struct drm_i915_private *dev_priv)
 {
 	/*
 	 * Command parser version history
@@ -1228,6 +1329,7 @@ int i915_cmd_parser_get_version(void)
 	 * 4. L3 atomic chicken bits of HSW_SCRATCH1 and HSW_ROW_CHICKEN3.
 	 * 5. GPGPU dispatch compute indirect registers.
 	 * 6. TIMESTAMP register and Haswell CS GPR registers
+	 * 10. Gen9 only - Supports the new ppgtt based BLIT parser
 	 */
-	return 6;
+	return CMDPARSER_USES_GGTT(dev_priv) ? 6 : 10;;
 }
