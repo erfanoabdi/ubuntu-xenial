@@ -2637,6 +2637,9 @@ struct drm_i915_cmd_table {
 #define HAS_BSD2(dev)		(INTEL_INFO(dev)->ring_mask & BSD2_RING)
 #define HAS_BLT(dev)		(INTEL_INFO(dev)->ring_mask & BLT_RING)
 #define HAS_VEBOX(dev)		(INTEL_INFO(dev)->ring_mask & VEBOX_RING)
+
+#define HAS_SECURE_BATCHES(dev_priv) (INTEL_INFO(dev_priv)->gen < 6)
+
 #define HAS_LLC(dev)		(INTEL_INFO(dev)->has_llc)
 #define HAS_SNOOP(dev)		(INTEL_INFO(dev)->has_snoop)
 #define HAS_EDRAM(dev)		(__I915__(dev)->edram_cap & EDRAM_ENABLED)
