@@ -1155,6 +1155,7 @@ struct intel_gen6_power_mgmt {
 	bool client_boost;
 
 	bool enabled;
+	bool ctx_corrupted;
 	struct delayed_work delayed_resume_work;
 	unsigned boosts;
 
@@ -2671,10 +2672,12 @@ struct drm_i915_cmd_table {
 /* Early gen2 have a totally busted CS tlb and require pinned batches. */
 #define HAS_BROKEN_CS_TLB(dev)		(IS_I830(dev) || IS_845G(dev))
 
+#define NEEDS_RC6_CTX_CORRUPTION_WA(dev)			\
+	   (IS_BROADWELL(dev) || INTEL_INFO(dev)->gen == 9)
+
 /* WaRsDisableCoarsePowerGating:skl,bxt */
-#define NEEDS_WaRsDisableCoarsePowerGating(dev) (IS_BXT_REVID(dev, 0, BXT_REVID_A1) || \
-						 IS_SKL_GT3(dev) || \
-						 IS_SKL_GT4(dev))
+#define NEEDS_WaRsDisableCoarsePowerGating(dev) \
+	   (INTEL_GEN(dev_priv) == 9)
 
 /*
  * dp aux and gmbus irq on gen4 seems to be able to generate legacy interrupts
