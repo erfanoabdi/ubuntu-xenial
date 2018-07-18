@@ -181,7 +181,7 @@ no_present:
 	return true;
 }
 
-static inline unsigned FNAME(gpte_access)(struct kvm_vcpu *vcpu, u64 gpte)
+static inline unsigned FNAME(gpte_access)(u64 gpte)
 {
 	unsigned access;
 #if PTTYPE == PTTYPE_EPT
@@ -351,7 +351,7 @@ retry_walk:
 		}
 
 		accessed_dirty &= pte;
-		pte_access = pt_access & FNAME(gpte_access)(vcpu, pte);
+		pte_access = pt_access & FNAME(gpte_access)(pte);
 
 		walker->ptes[walker->level - 1] = pte;
 	} while (!is_last_gpte(mmu, walker->level, pte));
@@ -464,7 +464,7 @@ FNAME(prefetch_gpte)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
 	pgprintk("%s: gpte %llx spte %p\n", __func__, (u64)gpte, spte);
 
 	gfn = gpte_to_gfn(gpte);
-	pte_access = sp->role.access & FNAME(gpte_access)(vcpu, gpte);
+	pte_access = sp->role.access & FNAME(gpte_access)(gpte);
 	FNAME(protect_clean_gpte)(&pte_access, gpte);
 	pfn = pte_prefetch_gfn_to_pfn(vcpu, gfn,
 			no_dirty_log && (pte_access & ACC_WRITE_MASK));
@@ -947,7 +947,7 @@ static int FNAME(sync_page)(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp)
 
 		gfn = gpte_to_gfn(gpte);
 		pte_access = sp->role.access;
-		pte_access &= FNAME(gpte_access)(vcpu, gpte);
+		pte_access &= FNAME(gpte_access)(gpte);
 		FNAME(protect_clean_gpte)(&pte_access, gpte);
 
 		if (sync_mmio_spte(vcpu, &sp->spt[i], gfn, pte_access,
