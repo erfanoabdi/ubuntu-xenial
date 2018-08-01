@@ -1421,6 +1421,13 @@ eb_select_ring(struct drm_i915_private *dev_priv,
 	return 0;
 }
 
+static inline bool use_cmdparser(const struct intel_engine_cs *engine,
+				 u32 batch_len)
+{
+	return engine->requires_cmd_parser ||
+		(engine->using_cmd_parser && batch_len && USES_PPGTT(engine->dev));
+}
+
 static int
 i915_gem_do_execbuffer(struct drm_device *dev, void *data,
 		       struct drm_file *file,
@@ -1554,7 +1561,7 @@ i915_gem_do_execbuffer(struct drm_device *dev, void *data,
 	}
 
 	params->args_batch_start_offset = args->batch_start_offset;
-	if (i915_needs_cmd_parser(engine) && args->batch_len) {
+	if (use_cmdparser(engine, args->batch_len)) {
 		struct drm_i915_gem_object *parsed_batch_obj;
 
 		parsed_batch_obj = i915_gem_execbuffer_parse(engine,
