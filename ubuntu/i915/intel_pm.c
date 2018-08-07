@@ -98,6 +98,14 @@ static void bxt_init_clock_gating(struct drm_device *dev)
 		   GEN8_HDCUNIT_CLOCK_GATE_DISABLE_HDCREQ);
 
 	/*
+	 * Lower the display internal timeout.
+	 * This is needed to avoid any hard hangs when DSI port PLL
+	 * is off and a MMIO access is attempted by any privilege
+	 * application, using batch buffers or any other means.
+	 */
+	I915_WRITE(RM_TIMEOUT, MMIO_TIMEOUT_US(950));
+
+	/*
 	 * Wa: Backlight PWM may stop in the asserted state, causing backlight
 	 * to stay fully on.
 	 */
