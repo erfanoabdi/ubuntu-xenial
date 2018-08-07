@@ -173,8 +173,8 @@ bool test_core(int idx)
 		    idx == PERF_CSTATE_CORE_C7_RES)
 			return true;
 		break;
-	case INTEL_FAM6_ATOM_SILVERMONT1:
-	case INTEL_FAM6_ATOM_SILVERMONT2:
+	case INTEL_FAM6_ATOM_SILVERMONT:
+	case INTEL_FAM6_ATOM_SILVERMONT_X:
 	case INTEL_FAM6_ATOM_AIRMONT:
 		if (idx == PERF_CSTATE_CORE_C1_RES ||
 		    idx == PERF_CSTATE_CORE_C6_RES)
@@ -301,8 +301,8 @@ bool test_pkg(int idx)
 		    idx == PERF_CSTATE_PKG_C7_RES)
 			return true;
 		break;
-	case INTEL_FAM6_ATOM_SILVERMONT1:
-	case INTEL_FAM6_ATOM_SILVERMONT2:
+	case INTEL_FAM6_ATOM_SILVERMONT:
+	case INTEL_FAM6_ATOM_SILVERMONT_X:
 	case INTEL_FAM6_ATOM_AIRMONT:
 		if (idx == PERF_CSTATE_CORE_C6_RES)
 			return true;
@@ -602,8 +602,8 @@ static int __init cstate_init(void)
 {
 	/* SLM has different MSR for PKG C6 */
 	switch (boot_cpu_data.x86_model) {
-	case INTEL_FAM6_ATOM_SILVERMONT1:
-	case INTEL_FAM6_ATOM_SILVERMONT2:
+	case INTEL_FAM6_ATOM_SILVERMONT:
+	case INTEL_FAM6_ATOM_SILVERMONT_X:
 	case INTEL_FAM6_ATOM_AIRMONT:
 		pkg_msr[PERF_CSTATE_PKG_C6_RES].msr = MSR_PKG_C7_RESIDENCY;
 	}
