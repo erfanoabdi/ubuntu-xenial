@@ -77,6 +77,9 @@ u64 __ro_after_init x86_amd_ls_cfg_ssbd_mask;
 /* Control MDS CPU buffer clear before returning to user space */
 DEFINE_STATIC_KEY_FALSE(mds_user_clear);
 EXPORT_SYMBOL_GPL(mds_user_clear);
+/* Control MDS CPU buffer clear before idling (halt, mwait) */
+DEFINE_STATIC_KEY_FALSE(mds_idle_clear);
+EXPORT_SYMBOL_GPL(mds_idle_clear);
 
 void __init check_bugs(void)
 {
