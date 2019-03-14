@@ -4882,7 +4882,6 @@ EXPORT_SYMBOL vmlinux 0x0b42e937	xfrm_state_walk
 EXPORT_SYMBOL vmlinux 0x0b4f7f9e	passthru_features_check
 EXPORT_SYMBOL vmlinux 0x0b5f198f	nvm_unregister
 EXPORT_SYMBOL vmlinux 0x0b742fd7	simple_strtol
-EXPORT_SYMBOL vmlinux 0x0b8fc9c3	get_user_pages_unlocked
 EXPORT_SYMBOL vmlinux 0x0b93b9e7	tcp_check_req
 EXPORT_SYMBOL vmlinux 0x0bbc5908	gen_estimator_active
 EXPORT_SYMBOL vmlinux 0x0bc35aff	page_zero_new_buffers
@@ -4966,6 +4965,7 @@ EXPORT_SYMBOL vmlinux 0x1038ec76	blk_integrity_unregister
 EXPORT_SYMBOL vmlinux 0x10390c76	__blk_mq_end_request
 EXPORT_SYMBOL vmlinux 0x1042cb2f	xfrm4_protocol_register
 EXPORT_SYMBOL vmlinux 0x1069b6ba	tcp_read_sock
+EXPORT_SYMBOL vmlinux 0x106fc567	get_user_pages
 EXPORT_SYMBOL vmlinux 0x10709f77	devm_ioport_unmap
 EXPORT_SYMBOL vmlinux 0x107e5878	zlib_inflateEnd
 EXPORT_SYMBOL vmlinux 0x10950ee1	radix_tree_tag_clear
@@ -6409,6 +6409,7 @@ EXPORT_SYMBOL vmlinux 0x652ce9aa	nla_memcmp
 EXPORT_SYMBOL vmlinux 0x65408378	zlib_inflate_blob
 EXPORT_SYMBOL vmlinux 0x65439815	generic_file_write_iter
 EXPORT_SYMBOL vmlinux 0x65501d97	mmc_hw_reset
+EXPORT_SYMBOL vmlinux 0x655611bf	get_vaddr_frames
 EXPORT_SYMBOL vmlinux 0x6556ce9b	twl6040_reg_write
 EXPORT_SYMBOL vmlinux 0x655e7aa9	proto_unregister
 EXPORT_SYMBOL vmlinux 0x656c1a0e	string_escape_mem
@@ -6631,7 +6632,6 @@ EXPORT_SYMBOL vmlinux 0x732748e8	of_mdiobus_register
 EXPORT_SYMBOL vmlinux 0x733b2383	next_tlbcam_idx
 EXPORT_SYMBOL vmlinux 0x733c3b54	kasprintf
 EXPORT_SYMBOL vmlinux 0x734274a6	ip_cmsg_recv_offset
-EXPORT_SYMBOL vmlinux 0x7359f162	__get_user_pages_unlocked
 EXPORT_SYMBOL vmlinux 0x735d8503	add_wait_queue
 EXPORT_SYMBOL vmlinux 0x736255c5	n_tty_ioctl_helper
 EXPORT_SYMBOL vmlinux 0x73711ace	md_check_recovery
@@ -7066,6 +7066,7 @@ EXPORT_SYMBOL vmlinux 0x8cbbc993	flush_dcache_icache_page
 EXPORT_SYMBOL vmlinux 0x8cc3fa6a	remove_arg_zero
 EXPORT_SYMBOL vmlinux 0x8cc79cab	iowrite16_rep
 EXPORT_SYMBOL vmlinux 0x8cca6539	__xfrm_state_destroy
+EXPORT_SYMBOL vmlinux 0x8ccfa62a	__get_user_pages_unlocked
 EXPORT_SYMBOL vmlinux 0x8cece67e	xfrm_policy_walk
 EXPORT_SYMBOL vmlinux 0x8cf3cd3f	devfreq_monitor_start
 EXPORT_SYMBOL vmlinux 0x8d015dd4	__bswapdi2
@@ -7103,6 +7104,7 @@ EXPORT_SYMBOL vmlinux 0x8ee77431	bitmap_start_sync
 EXPORT_SYMBOL vmlinux 0x8f4a1bcd	seq_put_decimal_ll
 EXPORT_SYMBOL vmlinux 0x8f5af895	vme_dma_list_add
 EXPORT_SYMBOL vmlinux 0x8f6f106d	tty_check_change
+EXPORT_SYMBOL vmlinux 0x8f760123	get_user_pages_unlocked
 EXPORT_SYMBOL vmlinux 0x8f85f835	prepare_to_wait_exclusive
 EXPORT_SYMBOL vmlinux 0x8fa1362e	d_walk
 EXPORT_SYMBOL vmlinux 0x8fc15bf6	iommu_tbl_range_free
@@ -7777,6 +7779,7 @@ EXPORT_SYMBOL vmlinux 0xb88bb3eb	scsi_remove_device
 EXPORT_SYMBOL vmlinux 0xb8986124	kernel_listen
 EXPORT_SYMBOL vmlinux 0xb8af646a	bioset_integrity_create
 EXPORT_SYMBOL vmlinux 0xb8c6122f	phy_drivers_unregister
+EXPORT_SYMBOL vmlinux 0xb8d001e3	get_user_pages_locked
 EXPORT_SYMBOL vmlinux 0xb8d23fdd	migrate_page
 EXPORT_SYMBOL vmlinux 0xb8d63c25	__check_sticky
 EXPORT_SYMBOL vmlinux 0xb8eb4f7f	block_commit_write
@@ -8280,7 +8283,6 @@ EXPORT_SYMBOL vmlinux 0xd5730334	sb_set_blocksize
 EXPORT_SYMBOL vmlinux 0xd57b045a	bio_add_page
 EXPORT_SYMBOL vmlinux 0xd582681f	skb_clone_sk
 EXPORT_SYMBOL vmlinux 0xd5891f21	sock_alloc_send_pskb
-EXPORT_SYMBOL vmlinux 0xd594c904	get_vaddr_frames
 EXPORT_SYMBOL vmlinux 0xd5b5cb79	devm_memunmap
 EXPORT_SYMBOL vmlinux 0xd5c71dfa	kernel_getsockopt
 EXPORT_SYMBOL vmlinux 0xd5e53e61	jbd2_journal_set_triggers
@@ -8471,7 +8473,6 @@ EXPORT_SYMBOL vmlinux 0xe0bb0c8c	netdev_lower_get_next_private_rcu
 EXPORT_SYMBOL vmlinux 0xe0ca8cdf	tcp_filter
 EXPORT_SYMBOL vmlinux 0xe0d3993d	mount_pseudo
 EXPORT_SYMBOL vmlinux 0xe0dca3ec	sk_filter_trim_cap
-EXPORT_SYMBOL vmlinux 0xe0f9db33	get_user_pages_locked
 EXPORT_SYMBOL vmlinux 0xe113bbbc	csum_partial
 EXPORT_SYMBOL vmlinux 0xe11729c6	iget_locked
 EXPORT_SYMBOL vmlinux 0xe11d50a6	delete_from_page_cache
@@ -8828,7 +8829,6 @@ EXPORT_SYMBOL vmlinux 0xf53d4c26	qdisc_class_hash_destroy
 EXPORT_SYMBOL vmlinux 0xf5494bf1	i2c_use_client
 EXPORT_SYMBOL vmlinux 0xf54c8207	scsi_scan_target
 EXPORT_SYMBOL vmlinux 0xf55b3b3d	__arch_hweight16
-EXPORT_SYMBOL vmlinux 0xf560a8f9	get_user_pages
 EXPORT_SYMBOL vmlinux 0xf57eea95	ip_mc_join_group
 EXPORT_SYMBOL vmlinux 0xf586519f	ww_mutex_unlock
 EXPORT_SYMBOL vmlinux 0xf5a0085f	simple_release_fs
