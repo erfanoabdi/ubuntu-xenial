@@ -469,7 +469,6 @@ bfusb
 bh1750
 bh1770glc
 bh1780gli
-binfmt_aout
 binfmt_misc
 block2mtd
 blocklayoutdriver
