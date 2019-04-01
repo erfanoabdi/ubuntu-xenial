@@ -202,9 +202,6 @@ enum spectre_v2_mitigation {
 	SPECTRE_V2_IBRS_ENHANCED,
 };
 
-/* The Intel SPEC CTRL MSR base value cache */
-extern u64 x86_spec_ctrl_base;
-
 /* The Speculative Store Bypass disable variants */
 enum ssb_mitigation {
 	SPEC_STORE_BYPASS_NONE,
@@ -256,6 +253,9 @@ static inline void indirect_branch_prediction_barrier(void)
 				      X86_FEATURE_USE_IBPB);
 }
 
+/* The Intel SPEC CTRL MSR base value cache */
+extern u64 x86_spec_ctrl_base;
+
 /*
  * With retpoline, we must use IBRS to restrict branch prediction
  * before calling into firmware.
@@ -265,6 +265,7 @@ static inline void indirect_branch_prediction_barrier(void)
 #define firmware_restrict_branch_speculation_start()			\
 do {									\
 	u64 val = x86_spec_ctrl_base | SPEC_CTRL_IBRS;			\
+									\
 	preempt_disable();						\
 	alternative_msr_write(MSR_IA32_SPEC_CTRL, val,			\
 			      X86_FEATURE_USE_IBRS_FW);			\
