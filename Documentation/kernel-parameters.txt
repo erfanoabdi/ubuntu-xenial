@@ -3727,7 +3727,7 @@ bytes respectively. Such letter suffixes can also be entirely omitted.
 
 	spec_store_bypass_disable=
 			[HW] Control Speculative Store Bypass (SSB) Disable mitigation
-			(Seculative Store Bypass vulnerability)
+			(Speculative Store Bypass vulnerability)
 
 			Certain CPUs are vulnerable to an exploit against a
 			a common industry wide performance optimization known
