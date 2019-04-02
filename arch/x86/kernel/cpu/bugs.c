@@ -122,6 +122,8 @@ void __init check_bugs(void)
 
 	mds_select_mitigation();
 
+	arch_smt_update();
+
 #ifdef CONFIG_X86_32
 	/*
 	 * Check whether we are able to run this kernel safely on SMP.
@@ -510,8 +512,6 @@ specv2_set_mode:
 		    mode != SPECTRE_V2_RETPOLINE_AMD)
 			set_ibrs_enabled(1);   /* Enable IBRS */
 	}
-
-	arch_smt_update();
 }
 
 /* Update the static key controlling the MDS CPU buffer clear in idle */
