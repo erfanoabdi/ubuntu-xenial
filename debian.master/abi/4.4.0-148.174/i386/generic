@@ -16574,6 +16574,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x6eca3ad9	usb_autopm_get_interface_async
 EXPORT_SYMBOL_GPL vmlinux 0x6f0507da	__rtnl_link_unregister
 EXPORT_SYMBOL_GPL vmlinux 0x6f1ee69e	kgdb_unregister_io_module
 EXPORT_SYMBOL_GPL vmlinux 0x6f265b6a	ping_seq_fops
+EXPORT_SYMBOL_GPL vmlinux 0x6f2b396b	mds_idle_clear
 EXPORT_SYMBOL_GPL vmlinux 0x6f34a290	rtnl_link_register
 EXPORT_SYMBOL_GPL vmlinux 0x6f3af0b0	ata_sff_softreset
 EXPORT_SYMBOL_GPL vmlinux 0x6f402ba6	acpi_dev_resource_interrupt
@@ -18208,6 +18209,7 @@ EXPORT_SYMBOL_GPL vmlinux 0xd41fffab	interval_tree_iter_first
 EXPORT_SYMBOL_GPL vmlinux 0xd4268f89	vring_new_virtqueue
 EXPORT_SYMBOL_GPL vmlinux 0xd4472d43	devm_usb_get_phy_by_phandle
 EXPORT_SYMBOL_GPL vmlinux 0xd44a5eac	kgdb_register_nmi_console
+EXPORT_SYMBOL_GPL vmlinux 0xd4687b9f	mds_user_clear
 EXPORT_SYMBOL_GPL vmlinux 0xd47e9423	dst_cache_set_ip4
 EXPORT_SYMBOL_GPL vmlinux 0xd48d5d30	fat_build_inode
 EXPORT_SYMBOL_GPL vmlinux 0xd4b30939	__tracepoint_napi_poll

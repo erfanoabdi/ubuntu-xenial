@@ -16058,6 +16058,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x490b80dd	wm8400_reset_codec_reg_cache
 EXPORT_SYMBOL_GPL vmlinux 0x493275e4	adp5520_clr_bits
 EXPORT_SYMBOL_GPL vmlinux 0x49436354	sata_std_hardreset
 EXPORT_SYMBOL_GPL vmlinux 0x4979d461	rt_mutex_unlock
+EXPORT_SYMBOL_GPL vmlinux 0x498aa836	mds_user_clear
 EXPORT_SYMBOL_GPL vmlinux 0x498d62d9	fanout_mutex
 EXPORT_SYMBOL_GPL vmlinux 0x499026ad	kobject_uevent_env
 EXPORT_SYMBOL_GPL vmlinux 0x499043d3	crypto_init_queue
@@ -18710,6 +18711,7 @@ EXPORT_SYMBOL_GPL vmlinux 0xf2acdcf8	fwnode_property_match_string
 EXPORT_SYMBOL_GPL vmlinux 0xf2b471ad	regulator_set_voltage_sel_regmap
 EXPORT_SYMBOL_GPL vmlinux 0xf2b591c1	shmem_read_mapping_page_gfp
 EXPORT_SYMBOL_GPL vmlinux 0xf2c92f42	ata_sas_port_start
+EXPORT_SYMBOL_GPL vmlinux 0xf2c9eac2	mds_idle_clear
 EXPORT_SYMBOL_GPL vmlinux 0xf2e4f654	pci_remove_root_bus
 EXPORT_SYMBOL_GPL vmlinux 0xf2ec5f8c	skb_zerocopy_headlen
 EXPORT_SYMBOL_GPL vmlinux 0xf2fca922	uart_parse_options

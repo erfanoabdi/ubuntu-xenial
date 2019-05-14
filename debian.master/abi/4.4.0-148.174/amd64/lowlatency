@@ -16107,6 +16107,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x492fb596	acpi_dev_resume_early
 EXPORT_SYMBOL_GPL vmlinux 0x494e9d48	skb_zerocopy_headlen
 EXPORT_SYMBOL_GPL vmlinux 0x496e9c6e	regulator_list_voltage
 EXPORT_SYMBOL_GPL vmlinux 0x4982f06f	__crypto_alloc_tfm
+EXPORT_SYMBOL_GPL vmlinux 0x498aa836	mds_user_clear
 EXPORT_SYMBOL_GPL vmlinux 0x499043d3	crypto_init_queue
 EXPORT_SYMBOL_GPL vmlinux 0x49e4eb33	pv_info
 EXPORT_SYMBOL_GPL vmlinux 0x49e96999	cond_synchronize_rcu
@@ -18708,6 +18709,7 @@ EXPORT_SYMBOL_GPL vmlinux 0xf2acdcf8	fwnode_property_match_string
 EXPORT_SYMBOL_GPL vmlinux 0xf2b471ad	regulator_set_voltage_sel_regmap
 EXPORT_SYMBOL_GPL vmlinux 0xf2b78f58	devm_mdiobus_free
 EXPORT_SYMBOL_GPL vmlinux 0xf2bba248	fuse_dev_operations
+EXPORT_SYMBOL_GPL vmlinux 0xf2c9eac2	mds_idle_clear
 EXPORT_SYMBOL_GPL vmlinux 0xf2d771d5	usb_hcd_giveback_urb
 EXPORT_SYMBOL_GPL vmlinux 0xf2d947fb	gpiod_get_direction
 EXPORT_SYMBOL_GPL vmlinux 0xf2e4f654	pci_remove_root_bus

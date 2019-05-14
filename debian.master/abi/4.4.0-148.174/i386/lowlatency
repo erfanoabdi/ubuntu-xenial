@@ -16588,6 +16588,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x6e89a560	regmap_irq_chip_get_base
 EXPORT_SYMBOL_GPL vmlinux 0x6e9436f8	devm_usb_get_phy_dev
 EXPORT_SYMBOL_GPL vmlinux 0x6ea37df9	da903x_write
 EXPORT_SYMBOL_GPL vmlinux 0x6f1ee69e	kgdb_unregister_io_module
+EXPORT_SYMBOL_GPL vmlinux 0x6f2b396b	mds_idle_clear
 EXPORT_SYMBOL_GPL vmlinux 0x6f402ba6	acpi_dev_resource_interrupt
 EXPORT_SYMBOL_GPL vmlinux 0x6f4af918	pci_disable_rom
 EXPORT_SYMBOL_GPL vmlinux 0x6f7e5c91	bpf_skb_vlan_pop_proto
@@ -18232,6 +18233,7 @@ EXPORT_SYMBOL_GPL vmlinux 0xd42f5d44	metadata_dst_alloc_percpu
 EXPORT_SYMBOL_GPL vmlinux 0xd44889c9	__blk_put_request
 EXPORT_SYMBOL_GPL vmlinux 0xd44a5eac	kgdb_register_nmi_console
 EXPORT_SYMBOL_GPL vmlinux 0xd4630cf3	i2c_bus_type
+EXPORT_SYMBOL_GPL vmlinux 0xd4687b9f	mds_user_clear
 EXPORT_SYMBOL_GPL vmlinux 0xd4699334	skb_zerocopy_headlen
 EXPORT_SYMBOL_GPL vmlinux 0xd46a07c8	inet_ehash_nolisten
 EXPORT_SYMBOL_GPL vmlinux 0xd47e554e	locks_release_private
