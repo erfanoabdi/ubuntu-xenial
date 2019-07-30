@@ -573,6 +573,7 @@ static struct aa_label *profile_transition(struct aa_profile *profile,
 		error = -EPERM;
 		info = "no new privs";
 		nonewprivs = true;
+		perms.allow &= ~MAY_EXEC;
 		goto audit;
 	}
 
@@ -647,8 +648,10 @@ static int profile_onexec(struct aa_profile *profile, struct aa_label *onexec,
 	state = aa_dfa_null_transition(profile->file.dfa, state);
 	error = change_profile_perms(profile, onexec, stack, AA_MAY_ONEXEC,
 				     state, &perms);
-	if (error)
+	if (error) {
+		perms.allow &= ~AA_MAY_ONEXEC;
 		goto audit;
+	}
 
 	/* Policy has specified a domain transitions. if no_new_privs and
 	 * confined and not transitioning to the current domain fail.
@@ -662,6 +665,7 @@ static int profile_onexec(struct aa_profile *profile, struct aa_label *onexec,
 	    !aa_label_is_subset(onexec, &profile->label)) {
 		error = -EPERM;
 		info = "no new privs";
+		perms.allow &= ~AA_MAY_ONEXEC;
 		goto audit;
 	}
 
