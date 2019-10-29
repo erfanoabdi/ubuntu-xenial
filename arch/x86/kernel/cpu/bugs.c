@@ -32,6 +32,8 @@
 #include <asm/e820.h>
 #include <asm/hypervisor.h>
 
+#include "cpu.h"
+
 unsigned int noibpb = 0;
 
 static int __init noibpb_handler(char *str)
