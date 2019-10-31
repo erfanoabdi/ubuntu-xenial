@@ -222,6 +222,7 @@ struct kvm_rmap_head {
 struct kvm_mmu_page {
 	struct list_head link;
 	struct hlist_node hash_link;
+	bool lpage_disallowed; /* Can't be replaced by an equiv large page */
 
 	/*
 	 * The following two entries are used to key the shadow page in the
@@ -747,6 +748,7 @@ struct kvm_vm_stat {
 	u32 mmu_unsync;
 	u32 remote_tlb_flush;
 	u32 lpages;
+	ulong nx_lpage_splits;
 };
 
 struct kvm_vcpu_stat {
