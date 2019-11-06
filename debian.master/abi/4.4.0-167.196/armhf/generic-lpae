@@ -13966,6 +13966,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x197e3520	tty_buffer_unlock_exclusive
 EXPORT_SYMBOL_GPL vmlinux 0x1990f8ff	pm_qos_update_request
 EXPORT_SYMBOL_GPL vmlinux 0x19991dd6	dev_pm_qos_remove_request
 EXPORT_SYMBOL_GPL vmlinux 0x19a304ba	usb_disabled
+EXPORT_SYMBOL_GPL vmlinux 0x19c20269	soc_device_unregister
 EXPORT_SYMBOL_GPL vmlinux 0x19c3ca4f	ata_bmdma_error_handler
 EXPORT_SYMBOL_GPL vmlinux 0x19c5ae91	virtqueue_enable_cb
 EXPORT_SYMBOL_GPL vmlinux 0x19d3b862	inet6_csk_bind_conflict
@@ -14762,6 +14763,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x47ce8867	sk_clear_memalloc
 EXPORT_SYMBOL_GPL vmlinux 0x47de0dc7	clk_unregister_mux
 EXPORT_SYMBOL_GPL vmlinux 0x47eab378	vfs_test_lock
 EXPORT_SYMBOL_GPL vmlinux 0x4832d00a	cpufreq_register_governor
+EXPORT_SYMBOL_GPL vmlinux 0x48350a54	soc_device_register
 EXPORT_SYMBOL_GPL vmlinux 0x4849752b	of_thermal_is_trip_valid
 EXPORT_SYMBOL_GPL vmlinux 0x485cd7f6	kvm_rebooting
 EXPORT_SYMBOL_GPL vmlinux 0x48621bfa	rtc_update_irq

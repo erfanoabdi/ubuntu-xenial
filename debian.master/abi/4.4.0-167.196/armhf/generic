@@ -14021,6 +14021,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x1990f8ff	pm_qos_update_request
 EXPORT_SYMBOL_GPL vmlinux 0x1998a3c7	ata_sff_wait_after_reset
 EXPORT_SYMBOL_GPL vmlinux 0x19a304ba	usb_disabled
 EXPORT_SYMBOL_GPL vmlinux 0x19a5052d	ping_close
+EXPORT_SYMBOL_GPL vmlinux 0x19c20269	soc_device_unregister
 EXPORT_SYMBOL_GPL vmlinux 0x19da04bc	device_rename
 EXPORT_SYMBOL_GPL vmlinux 0x19ea5354	mbox_chan_received_data
 EXPORT_SYMBOL_GPL vmlinux 0x19ed67d9	tc3589x_set_bits
@@ -14770,6 +14771,7 @@ EXPORT_SYMBOL_GPL vmlinux 0x47f7c5fe	bd_unlink_disk_holder
 EXPORT_SYMBOL_GPL vmlinux 0x47fe41be	omap_dm_timer_write_counter
 EXPORT_SYMBOL_GPL vmlinux 0x480214ac	omap_dm_timer_request_by_node
 EXPORT_SYMBOL_GPL vmlinux 0x48273c58	iommu_domain_free
+EXPORT_SYMBOL_GPL vmlinux 0x48350a54	soc_device_register
 EXPORT_SYMBOL_GPL vmlinux 0x4849752b	of_thermal_is_trip_valid
 EXPORT_SYMBOL_GPL vmlinux 0x484eca83	regulator_bulk_enable
 EXPORT_SYMBOL_GPL vmlinux 0x485e4bcb	sata_set_spd
