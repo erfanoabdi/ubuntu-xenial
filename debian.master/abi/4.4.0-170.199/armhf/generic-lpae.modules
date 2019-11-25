@@ -3434,7 +3434,6 @@ sh_keysc
 sh_mmcif
 sh_mobile_ceu_camera
 sh_mobile_csi2
-sh_mobile_hdmi
 sh_mobile_lcdcfb
 sh_mobile_meram
 sh_mobile_sdhi
