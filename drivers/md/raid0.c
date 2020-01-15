@@ -25,6 +25,9 @@
 #include "raid0.h"
 #include "raid5.h"
 
+static int default_layout = 0;
+module_param(default_layout, int, 0644);
+
 static int raid0_congested(struct mddev *mddev, int bits)
 {
 	struct r0conf *conf = mddev->private;
@@ -137,6 +140,19 @@ static int create_strip_zones(struct mddev *mddev, struct r0conf **private_conf)
 	}
 	pr_debug("md/raid0:%s: FINAL %d zones\n",
 		 mdname(mddev), conf->nr_strip_zones);
+
+	if (conf->nr_strip_zones == 1) {
+		conf->layout = RAID0_ORIG_LAYOUT;
+	} else if (default_layout == RAID0_ORIG_LAYOUT ||
+		   default_layout == RAID0_ALT_MULTIZONE_LAYOUT) {
+		conf->layout = default_layout;
+	} else {
+		pr_err("md/raid0:%s: cannot assemble multi-zone RAID0 with default_layout setting\n",
+		       mdname(mddev));
+		pr_err("md/raid0: please set raid.default_layout to 1 or 2\n");
+		err = -ENOTSUPP;
+		goto abort;
+	}
 	/*
 	 * now since we have the hard sector sizes, we can make sure
 	 * chunk size is a multiple of that sector size
@@ -454,6 +470,7 @@ static inline int is_io_in_chunk_boundary(struct mddev *mddev,
 
 static void raid0_make_request(struct mddev *mddev, struct bio *bio)
 {
+	struct r0conf *conf = mddev->private;
 	struct strip_zone *zone;
 	struct md_rdev *tmp_dev;
 	struct bio *split;
@@ -465,6 +482,7 @@ static void raid0_make_request(struct mddev *mddev, struct bio *bio)
 
 	do {
 		sector_t sector = bio->bi_iter.bi_sector;
+		sector_t orig_sector;
 		unsigned chunk_sects = mddev->chunk_sectors;
 
 		unsigned sectors = chunk_sects -
@@ -482,8 +500,20 @@ static void raid0_make_request(struct mddev *mddev, struct bio *bio)
 			split = bio;
 		}
 
+		orig_sector = sector;
 		zone = find_zone(mddev->private, &sector);
-		tmp_dev = map_sector(mddev, zone, sector, &sector);
+		switch (conf->layout) {
+		case RAID0_ORIG_LAYOUT:
+			tmp_dev = map_sector(mddev, zone, orig_sector, &sector);
+			break;
+		case RAID0_ALT_MULTIZONE_LAYOUT:
+			tmp_dev = map_sector(mddev, zone, sector, &sector);
+			break;
+		default:
+			WARN("md/raid0:%s: Invalid layout\n", mdname(mddev));
+			bio_io_error(bio);
+			return true;
+		}
 		split->bi_bdev = tmp_dev->bdev;
 		split->bi_iter.bi_sector = sector + zone->dev_start +
 			tmp_dev->data_offset;
