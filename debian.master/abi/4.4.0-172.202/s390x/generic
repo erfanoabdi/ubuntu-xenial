@@ -3140,6 +3140,7 @@ EXPORT_SYMBOL vmlinux 0x81d35bfe	tcw_get_tccb
 EXPORT_SYMBOL vmlinux 0x81d5efcd	request_key_async
 EXPORT_SYMBOL vmlinux 0x81d797f7	ethtool_op_get_link
 EXPORT_SYMBOL vmlinux 0x81db6ebb	xz_dec_reset
+EXPORT_SYMBOL vmlinux 0x81f0c6a0	dqstats
 EXPORT_SYMBOL vmlinux 0x82072614	tasklet_kill
 EXPORT_SYMBOL vmlinux 0x824519f1	finish_wait
 EXPORT_SYMBOL vmlinux 0x82458f7f	radix_tree_delete_item
@@ -4426,7 +4427,6 @@ EXPORT_SYMBOL vmlinux 0xdd5077df	get_cached_acl
 EXPORT_SYMBOL vmlinux 0xdd5e3331	pneigh_lookup
 EXPORT_SYMBOL vmlinux 0xdd6a2275	deactivate_locked_super
 EXPORT_SYMBOL vmlinux 0xdd757457	vfs_iter_write
-EXPORT_SYMBOL vmlinux 0xdd821580	dqstats
 EXPORT_SYMBOL vmlinux 0xdd93e681	follow_down_one
 EXPORT_SYMBOL vmlinux 0xdda08c00	__crc32c_le_shift
 EXPORT_SYMBOL vmlinux 0xdda4f804	unregister_netdev
@@ -5980,7 +5980,6 @@ EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xa06fbc10	ocfs2_cluster_connect_agno
 EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xbbc4ef97	ocfs2_stack_supports_plocks
 EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xbf9068ab	ocfs2_cluster_connect
 EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xc9e2b8dc	ocfs2_stack_glue_register
-EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xda2053b6	ocfs2_is_o2cb_active
 EXPORT_SYMBOL_GPL fs/ocfs2/ocfs2_stackglue 0xe40cffce	ocfs2_stack_glue_set_max_proto_version
 EXPORT_SYMBOL_GPL kernel/torture 0x1b2fca48	torture_must_stop_irq
 EXPORT_SYMBOL_GPL kernel/torture 0x1be7d8be	torture_onoff_failures
